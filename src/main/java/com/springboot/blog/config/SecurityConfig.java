@@ -31,30 +31,32 @@ public class SecurityConfig {
              return new BCryptPasswordEncoder();
     }
     @Bean
-    public static AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeHttpRequests((authrize) ->
+                .authorizeHttpRequests((authorize) ->
                         //authrize.anyRequest().authenticated()
-                        authrize.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
+                        authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                //.requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults());
         return http.build();
     }
-  @Bean
-    public UserDetailsService userDetailsService() {
-       UserDetails madan = User.builder()
-               .username("Madan")
-               .password(passwordEncoder().encode("Madan"))
-                .roles("admin")       .build();
-         UserDetails gangwar = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("user")
-               .build();
-      return new InMemoryUserDetailsManager(madan,gangwar);
-  }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails madan = User.builder()
+//                .username("Madan")
+//                .password(passwordEncoder().encode("Madan"))
+//                .roles("admin")
+//                .build();
+//        UserDetails gangwar = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder().encode("admin"))
+//                .roles("user")
+//                .build();
+//        return new InMemoryUserDetailsManager(madan,gangwar);
+//    }
 }
