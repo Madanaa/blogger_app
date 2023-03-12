@@ -35,7 +35,4 @@ public class User {
     )
     private Set<Role> role ;
 
-//    public Collection<User> getRoles() {
-//        return getRoles();
-//    }
 }
